@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // WAYPOINTS DATABASE
     // =========================================================================
     const teleportWaypoints = [
+        // --- 1. Pyranthos North East ---
         { id: 1, mainRegion: "Pyranthos North East", subDirection: "N", name: "Pyranthos North East - [N] Terminal", coordinates: [78.3, 100.0] },
         { id: 2, mainRegion: "Pyranthos North East", subDirection: "NE", name: "Pyranthos North East - [NE] Terminal", coordinates: [78.3, 100.0] },
         { id: 3, mainRegion: "Pyranthos North East", subDirection: "E", name: "Pyranthos North East - [E] Terminal", coordinates: [84.6, 58.6] },
@@ -54,6 +55,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 6, mainRegion: "Pyranthos North East", subDirection: "SW", name: "Pyranthos North East - [SW] Terminal", coordinates: [83.4, 60.4] },
         { id: 7, mainRegion: "Pyranthos North East", subDirection: "W", name: "Pyranthos North East - [W] Terminal", coordinates: [83.0, 61.0] },
         { id: 8, mainRegion: "Pyranthos North East", subDirection: "NW", name: "Pyranthos North East - [NW] Terminal", coordinates: [82.6, 61.6] },
+
+        // --- 2. Pyranthos North West ---
         { id: 9, mainRegion: "Pyranthos North West", subDirection: "N", name: "Pyranthos North West - [N] Terminal", coordinates: [85.0, 45.0] },
         { id: 10, mainRegion: "Pyranthos North West", subDirection: "NE", name: "Pyranthos North West - [NE] Terminal", coordinates: [84.6, 45.6] },
         { id: 11, mainRegion: "Pyranthos North West", subDirection: "E", name: "Pyranthos North West - [E] Terminal", coordinates: [84.2, 46.2] },
@@ -62,6 +65,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 14, mainRegion: "Pyranthos North West", subDirection: "SW", name: "Pyranthos North West - [SW] Terminal", coordinates: [83.0, 48.0] },
         { id: 15, mainRegion: "Pyranthos North West", subDirection: "W", name: "Pyranthos North West - [W] Terminal", coordinates: [82.6, 48.6] },
         { id: 16, mainRegion: "Pyranthos North West", subDirection: "NW", name: "Pyranthos North West - [NW] Terminal", coordinates: [82.2, 49.2] },
+
+        // --- 3. Pyranthos West ---
         { id: 17, mainRegion: "Pyranthos West", subDirection: "N", name: "Pyranthos West - [N] Terminal", coordinates: [70.0, 35.0] },
         { id: 18, mainRegion: "Pyranthos West", subDirection: "NE", name: "Pyranthos West - [NE] Terminal", coordinates: [69.6, 35.6] },
         { id: 19, mainRegion: "Pyranthos West", subDirection: "E", name: "Pyranthos West - [E] Terminal", coordinates: [69.2, 36.2] },
@@ -70,6 +75,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 22, mainRegion: "Pyranthos West", subDirection: "SW", name: "Pyranthos West - [SW] Terminal", coordinates: [68.0, 38.0] },
         { id: 23, mainRegion: "Pyranthos West", subDirection: "W", name: "Pyranthos West - [W] Terminal", coordinates: [67.6, 38.6] },
         { id: 24, mainRegion: "Pyranthos West", subDirection: "NW", name: "Pyranthos West - [NW] Terminal", coordinates: [67.2, 39.2] },
+
+        // --- 4. Korinthos South East ---
         { id: 25, mainRegion: "Korinthos South East", subDirection: "N", name: "Korinthos South East - [N] Terminal", coordinates: [25.0, 65.0] },
         { id: 26, mainRegion: "Korinthos South East", subDirection: "NE", name: "Korinthos South East - [NE] Terminal", coordinates: [24.6, 65.6] },
         { id: 27, mainRegion: "Korinthos South East", subDirection: "E", name: "Korinthos South East - [E] Terminal", coordinates: [24.2, 66.2] },
@@ -78,6 +85,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 30, mainRegion: "Korinthos South East", subDirection: "SW", name: "Korinthos South East - [SW] Terminal", coordinates: [23.0, 68.0] },
         { id: 31, mainRegion: "Korinthos South East", subDirection: "W", name: "Korinthos South East - [W] Terminal", coordinates: [22.6, 68.6] },
         { id: 32, mainRegion: "Korinthos South East", subDirection: "NW", name: "Korinthos South East - [NW] Terminal", coordinates: [22.2, 69.2] },
+
+        // --- 5. Korinthos South West ---
         { id: 33, mainRegion: "Korinthos South West", subDirection: "N", name: "Korinthos South West - [N] Terminal", coordinates: [25.0, 35.0] },
         { id: 34, mainRegion: "Korinthos South West", subDirection: "NE", name: "Korinthos South West - [NE] Terminal", coordinates: [24.6, 35.6] },
         { id: 35, mainRegion: "Korinthos South West", subDirection: "E", name: "Korinthos South West - [E] Terminal", coordinates: [24.2, 36.2] },
@@ -86,6 +95,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 38, mainRegion: "Korinthos South West", subDirection: "SW", name: "Korinthos South West - [SW] Terminal", coordinates: [23.0, 38.0] },
         { id: 39, mainRegion: "Korinthos South West", subDirection: "W", name: "Korinthos South West - [W] Terminal", coordinates: [22.6, 38.6] },
         { id: 40, mainRegion: "Korinthos South West", subDirection: "NW", name: "Korinthos South West - [NW] Terminal", coordinates: [22.2, 39.2] },
+
+        // --- 6. Korinthos West ---
         { id: 41, mainRegion: "Korinthos West", subDirection: "N", name: "Korinthos West - [N] Terminal", coordinates: [49.0, 20.0] },
         { id: 42, mainRegion: "Korinthos West", subDirection: "NE", name: "Korinthos West - [NE] Terminal", coordinates: [48.6, 20.4] },
         { id: 43, mainRegion: "Korinthos West", subDirection: "E", name: "Korinthos West - [E] Terminal", coordinates: [48.2, 20.8] },
@@ -94,6 +105,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 46, mainRegion: "Korinthos West", subDirection: "SW", name: "Korinthos West - [SW] Terminal", coordinates: [47.4, 21.6] },
         { id: 47, mainRegion: "Korinthos West", subDirection: "W", name: "Korinthos West - [W] Terminal", coordinates: [47.0, 22.0] },
         { id: 48, mainRegion: "Korinthos West", subDirection: "NW", name: "Korinthos West - [NW] Terminal", coordinates: [46.6, 22.4] },
+
+        // --- 7. Korinthos North West ---
         { id: 49, mainRegion: "Korinthos North West", subDirection: "N", name: "Korinthos North West - [N] Terminal", coordinates: [55.0, 35.0] },
         { id: 50, mainRegion: "Korinthos North West", subDirection: "NE", name: "Korinthos North West - [NE] Terminal", coordinates: [54.6, 35.6] },
         { id: 51, mainRegion: "Korinthos North West", subDirection: "E", name: "Korinthos North West - [E] Terminal", coordinates: [54.2, 36.2] },
@@ -102,6 +115,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 54, mainRegion: "Korinthos North West", subDirection: "SW", name: "Korinthos North West - [SW] Terminal", coordinates: [53.0, 38.0] },
         { id: 55, mainRegion: "Korinthos North West", subDirection: "W", name: "Korinthos North West - [W] Terminal", coordinates: [52.6, 38.6] },
         { id: 56, mainRegion: "Korinthos North West", subDirection: "NW", name: "Korinthos North West - [NW] Terminal", coordinates: [52.2, 39.2] },
+
+        // --- 8. Korinthos East ---
         { id: 57, mainRegion: "Korinthos East", subDirection: "N", name: "Korinthos East - [N] Terminal", coordinates: [45.0, 65.0] },
         { id: 58, mainRegion: "Korinthos East", subDirection: "NE", name: "Korinthos East - [NE] Terminal", coordinates: [44.6, 65.6] },
         { id: 59, mainRegion: "Korinthos East", subDirection: "E", name: "Korinthos East - [E] Terminal", coordinates: [44.2, 66.2] },
@@ -110,6 +125,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 62, mainRegion: "Korinthos East", subDirection: "SW", name: "Korinthos East - [SW] Terminal", coordinates: [43.0, 68.0] },
         { id: 63, mainRegion: "Korinthos East", subDirection: "W", name: "Korinthos East - [W] Terminal", coordinates: [42.6, 68.6] },
         { id: 64, mainRegion: "Korinthos East", subDirection: "NW", name: "Korinthos East - [NW] Terminal", coordinates: [42.2, 69.2] },
+
+        // --- 9. Phokintos South ---
         { id: 65, mainRegion: "Phokintos South", subDirection: "N", name: "Phokintos South - [N] Terminal", coordinates: [35.0, 50.0] },
         { id: 66, mainRegion: "Phokintos South", subDirection: "NE", name: "Phokintos South - [NE] Terminal", coordinates: [34.6, 50.6] },
         { id: 67, mainRegion: "Phokintos South", subDirection: "E", name: "Phokintos South - [E] Terminal", coordinates: [34.2, 51.2] },
@@ -118,6 +135,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 70, mainRegion: "Phokintos South", subDirection: "SW", name: "Phokintos South - [SW] Terminal", coordinates: [33.0, 53.0] },
         { id: 71, mainRegion: "Phokintos South", subDirection: "W", name: "Phokintos South - [W] Terminal", coordinates: [32.6, 53.6] },
         { id: 72, mainRegion: "Phokintos South", subDirection: "NW", name: "Phokintos South - [NW] Terminal", coordinates: [32.2, 54.2] },
+
+        // --- 10. Phokintos East ---
         { id: 73, mainRegion: "Phokintos East", subDirection: "N", name: "Phokintos East - [N] Terminal", coordinates: [60.0, 60.0] },
         { id: 74, mainRegion: "Phokintos East", subDirection: "NE", name: "Phokintos East - [NE] Terminal", coordinates: [59.6, 60.6] },
         { id: 75, mainRegion: "Phokintos East", subDirection: "E", name: "Phokintos East - [E] Terminal", coordinates: [59.2, 61.2] },
@@ -126,6 +145,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 78, mainRegion: "Phokintos East", subDirection: "SW", name: "Phokintos East - [SW] Terminal", coordinates: [58.0, 63.0] },
         { id: 79, mainRegion: "Phokintos East", subDirection: "W", name: "Phokintos East - [W] Terminal", coordinates: [57.6, 63.6] },
         { id: 80, mainRegion: "Phokintos East", subDirection: "NW", name: "Phokintos East - [NW] Terminal", coordinates: [57.2, 64.2] },
+
+        // --- 11. Phokintos North ---
         { id: 81, mainRegion: "Phokintos North", subDirection: "N", name: "Phokintos North - [N] Terminal", coordinates: [65.0, 50.0] },
         { id: 82, mainRegion: "Phokintos North", subDirection: "NE", name: "Phokintos North - [NE] Terminal", coordinates: [64.6, 50.6] },
         { id: 83, mainRegion: "Phokintos North", subDirection: "E", name: "Phokintos North - [E] Terminal", coordinates: [64.2, 51.2] },
@@ -134,6 +155,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 86, mainRegion: "Phokintos North", subDirection: "SW", name: "Phokintos North - [SW] Terminal", coordinates: [63.0, 53.0] },
         { id: 87, mainRegion: "Phokintos North", subDirection: "W", name: "Phokintos North - [W] Terminal", coordinates: [62.6, 53.6] },
         { id: 88, mainRegion: "Phokintos North", subDirection: "NW", name: "Phokintos North - [NW] Terminal", coordinates: [62.2, 54.2] },
+
+        // --- 12. Phokintos South West ---
         { id: 89, mainRegion: "Phokintos South West", subDirection: "N", name: "Phokintos South West - [N] Terminal", coordinates: [45.0, 40.0] },
         { id: 90, mainRegion: "Phokintos South West", subDirection: "NE", name: "Phokintos South West - [NE] Terminal", coordinates: [44.6, 40.6] },
         { id: 91, mainRegion: "Phokintos South West", subDirection: "E", name: "Phokintos South West - [E] Terminal", coordinates: [44.2, 41.2] },
@@ -142,6 +165,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 94, mainRegion: "Phokintos South West", subDirection: "SW", name: "Phokintos South West - [SW] Terminal", coordinates: [43.0, 43.0] },
         { id: 95, mainRegion: "Phokintos South West", subDirection: "W", name: "Phokintos South West - [W] Terminal", coordinates: [42.6, 43.6] },
         { id: 96, mainRegion: "Phokintos South West", subDirection: "NW", name: "Phokintos South West - [NW] Terminal", coordinates: [42.2, 44.2] },
+
+        // --- 13. Therokis North ---
         { id: 97, mainRegion: "Therokis North", subDirection: "N", name: "Therokis North - [N] Terminal", coordinates: [75.0, 75.0] },
         { id: 98, mainRegion: "Therokis North", subDirection: "NE", name: "Therokis North - [NE] Terminal", coordinates: [74.6, 75.6] },
         { id: 99, mainRegion: "Therokis North", subDirection: "E", name: "Therokis North - [E] Terminal", coordinates: [74.2, 76.2] },
@@ -150,14 +175,18 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 102, mainRegion: "Therokis North", subDirection: "SW", name: "Therokis North - [SW] Terminal", coordinates: [73.0, 78.0] },
         { id: 103, mainRegion: "Therokis North", subDirection: "W", name: "Therokis North - [W] Terminal", coordinates: [72.6, 78.6] },
         { id: 104, mainRegion: "Therokis North", subDirection: "NW", name: "Therokis North - [NW] Terminal", coordinates: [72.2, 79.2] },
+
+        // --- 14. Therokis East ---
         { id: 105, mainRegion: "Therokis East", subDirection: "N", name: "Therokis East - [N] Terminal", coordinates: [65.0, 85.0] },
         { id: 106, mainRegion: "Therokis East", subDirection: "NE", name: "Therokis East - [NE] Terminal", coordinates: [64.6, 85.6] },
-        { id: 107, mainRegion: "Therokis East", subDirection: "E", name: "Therokis East - [E] Terminal", coordinates: [64.2, 86.2] },
+                { id: 107, mainRegion: "Therokis East", subDirection: "E", name: "Therokis East - [E] Terminal", coordinates: [64.2, 86.2] },
         { id: 108, mainRegion: "Therokis East", subDirection: "SE", name: "Therokis East - [SE] Terminal", coordinates: [63.8, 86.8] },
         { id: 109, mainRegion: "Therokis East", subDirection: "S", name: "Therokis East - [S] Terminal", coordinates: [63.4, 87.4] },
         { id: 110, mainRegion: "Therokis East", subDirection: "SW", name: "Therokis East - [SW] Terminal", coordinates: [63.0, 88.0] },
         { id: 111, mainRegion: "Therokis East", subDirection: "W", name: "Therokis East - [W] Terminal", coordinates: [62.6, 88.6] },
         { id: 112, mainRegion: "Therokis East", subDirection: "NW", name: "Therokis East - [NW] Terminal", coordinates: [62.2, 89.2] },
+
+        // --- 15. Therokis West ---
         { id: 113, mainRegion: "Therokis West", subDirection: "N", name: "Therokis West - [N] Terminal", coordinates: [65.0, 70.0] },
         { id: 114, mainRegion: "Therokis West", subDirection: "NE", name: "Therokis West - [NE] Terminal", coordinates: [64.6, 70.6] },
         { id: 115, mainRegion: "Therokis West", subDirection: "E", name: "Therokis West - [E] Terminal", coordinates: [64.2, 71.2] },
@@ -166,6 +195,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 118, mainRegion: "Therokis West", subDirection: "SW", name: "Therokis West - [SW] Terminal", coordinates: [63.0, 73.0] },
         { id: 119, mainRegion: "Therokis West", subDirection: "W", name: "Therokis West - [W] Terminal", coordinates: [62.6, 73.6] },
         { id: 120, mainRegion: "Therokis West", subDirection: "NW", name: "Therokis West - [NW] Terminal", coordinates: [62.2, 74.2] },
+
+        // --- 16. Lemnokis South ---
         { id: 121, mainRegion: "Lemnokis South", subDirection: "N", name: "Lemnokis South - [N] Terminal", coordinates: [15.0, 50.0] },
         { id: 122, mainRegion: "Lemnokis South", subDirection: "NE", name: "Lemnokis South - [NE] Terminal", coordinates: [14.6, 50.6] },
         { id: 123, mainRegion: "Lemnokis South", subDirection: "E", name: "Lemnokis South - [E] Terminal", coordinates: [14.2, 51.2] },
@@ -174,6 +205,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 126, mainRegion: "Lemnokis South", subDirection: "SW", name: "Lemnokis South - [SW] Terminal", coordinates: [13.0, 53.0] },
         { id: 127, mainRegion: "Lemnokis South", subDirection: "W", name: "Lemnokis South - [W] Terminal", coordinates: [12.6, 53.6] },
         { id: 128, mainRegion: "Lemnokis South", subDirection: "NW", name: "Lemnokis South - [NW] Terminal", coordinates: [12.2, 54.2] },
+
+        // --- 17. Lemnokis South East ---
         { id: 129, mainRegion: "Lemnokis South East", subDirection: "N", name: "Lemnokis South East - [N] Terminal", coordinates: [15.0, 60.0] },
         { id: 130, mainRegion: "Lemnokis South East", subDirection: "NE", name: "Lemnokis South East - [NE] Terminal", coordinates: [14.6, 60.6] },
         { id: 131, mainRegion: "Lemnokis South East", subDirection: "E", name: "Lemnokis South East - [E] Terminal", coordinates: [14.2, 61.2] },
@@ -182,6 +215,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 134, mainRegion: "Lemnokis South East", subDirection: "SW", name: "Lemnokis South East - [SW] Terminal", coordinates: [13.0, 63.0] },
         { id: 135, mainRegion: "Lemnokis South East", subDirection: "W", name: "Lemnokis South East - [W] Terminal", coordinates: [12.6, 63.6] },
         { id: 136, mainRegion: "Lemnokis South East", subDirection: "NW", name: "Lemnokis South East - [NW] Terminal", coordinates: [12.2, 64.2] },
+
+        // --- 18. Lemnokis East ---
         { id: 137, mainRegion: "Lemnokis East", subDirection: "N", name: "Lemnokis East - [N] Terminal", coordinates: [25.0, 55.0] },
         { id: 138, mainRegion: "Lemnokis East", subDirection: "NE", name: "Lemnokis East - [NE] Terminal", coordinates: [24.6, 55.6] },
         { id: 139, mainRegion: "Lemnokis East", subDirection: "E", name: "Lemnokis East - [E] Terminal", coordinates: [24.2, 56.2] },
@@ -190,6 +225,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 142, mainRegion: "Lemnokis East", subDirection: "SW", name: "Lemnokis East - [SW] Terminal", coordinates: [23.0, 58.0] },
         { id: 143, mainRegion: "Lemnokis East", subDirection: "W", name: "Lemnokis East - [W] Terminal", coordinates: [22.6, 58.6] },
         { id: 144, mainRegion: "Lemnokis East", subDirection: "NW", name: "Lemnokis East - [NW] Terminal", coordinates: [22.2, 59.2] },
+
+        // --- 19. Pyranthos North ---
         { id: 145, mainRegion: "Pyranthos North", subDirection: "N", name: "Pyranthos North - [N] Terminal", coordinates: [90.0, 50.0] },
         { id: 146, mainRegion: "Pyranthos North", subDirection: "NE", name: "Pyranthos North - [NE] Terminal", coordinates: [89.6, 50.6] },
         { id: 147, mainRegion: "Pyranthos North", subDirection: "E", name: "Pyranthos North - [E] Terminal", coordinates: [89.2, 51.2] },
