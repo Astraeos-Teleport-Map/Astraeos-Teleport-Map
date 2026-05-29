@@ -19,8 +19,22 @@
                 <span id="current-sub"></span>
             </div>
 
+            <div class="mobile-dropdown-container">
+                <div class="mobile-input-group">
+                    <label for="mobile-main-select">Main Region:</label>
+                    <select id="mobile-main-select">
+                        <option value="">-- Select Region --</option>
+                    </select>
+                </div>
+                <div class="mobile-input-group">
+                    <label for="mobile-sub-select">Direction:</label>
+                    <select id="mobile-sub-select" disabled>
+                        <option value="">-- Select Direction --</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="wheels-split-container">
-                
                 <div class="wheel-column">
                     <div class="wheel-title">Main Region</div>
                     <div class="wheel-wrapper main-wrapper-size">
@@ -34,10 +48,9 @@
                         <div id="sub-wheel-container"></div>
                     </div>
                 </div>
-
             </div>
 
-            <p class="helper-text">First select the Main Region on the left (the box stands exactly at the top). Then select the desired Direction on the right.</p>
+            <p class="helper-text">First select the Main Region (the box stands exactly at the top). Then select the desired Direction.</p>
         </div>
 
         <div class="right-panel">
@@ -47,6 +60,6 @@
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="app.js?v=1.0.5"></script>
+    <script src="app.js?v=1.0.6"></script>
 </body>
 </html>
