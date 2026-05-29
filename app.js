@@ -1,10 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     
     const mapContainer = document.getElementById('map');
-    const wheelContainer = document.getElementById('main-wheel-container');
     
-    if (!mapContainer || !wheelContainer) {
-        console.error("Kritischer Fehler: HTML-Elemente '#map' oder '#main-wheel-container' wurden im DOM nicht gefunden!");
+    if (!mapContainer) {
+        console.error("Kritischer Fehler: HTML-Element '#map' wurde im DOM nicht gefunden!");
         return;
     }
 
@@ -202,6 +201,57 @@ document.addEventListener("DOMContentLoaded", function () {
     let activeWaypointId = null;     
     let markerElementsMap = {};
 
+    // INITIALIZE MOBILE DROPDOWNS
+    const mobileMainSelect = document.getElementById('mobile-main-select');
+    const mobileSubSelect = document.getElementById('mobile-sub-select');
+
+    if (mobileMainSelect && mobileSubSelect) {
+        // Populate Main Regions Dropdown
+        mainRegionsList.forEach(region => {
+            let opt = document.createElement('option');
+            opt.value = region;
+            opt.textContent = region;
+            mobileMainSelect.appendChild(opt);
+        });
+
+        // Event for Main Select
+        mobileMainSelect.addEventListener('change', function () {
+            selectedMainRegion = this.value;
+            selectedSubDirection = null;
+            activeWaypointId = null;
+            
+            document.getElementById('current-main').innerText = selectedMainRegion || "Select Region";
+            document.getElementById('current-sub').innerText = "";
+            document.getElementById('arrow-separator').style.display = selectedMainRegion ? "inline" : "none";
+            
+            clearAllMarkerHighlights();
+            refreshCoordsToActiveState();
+
+            if (selectedMainRegion) {
+                mobileSubSelect.innerHTML = '<option value="">-- Select Direction --</option>';
+                subDirectionsList.forEach(dir => {
+                    let opt = document.createElement('option');
+                    opt.value = dir;
+                    opt.textContent = dir;
+                    mobileSubSelect.appendChild(opt);
+                });
+                mobileSubSelect.disabled = false;
+            } else {
+                mobileSubSelect.innerHTML = '<option value="">-- Select Direction --</option>';
+                mobileSubSelect.disabled = true;
+            }
+            initUiState();
+        });
+
+        // Event for Sub Select
+        mobileSubSelect.addEventListener('change', function () {
+            selectedSubDirection = this.value;
+            if (selectedMainRegion && selectedSubDirection) {
+                triggerTeleport(selectedMainRegion, selectedSubDirection);
+            }
+        });
+    }
+
     function getLeafletPixels(lat, lon) {
         let rawX = lon * 10;
         let rawY = (100 - lat) * 10;
@@ -327,9 +377,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function initUiState() {
+        // Synchronize Desktop Wheels if visible
         buildWheel(1, "main-wheel-container", mainRegionsList, (selectedRegion) => {
             selectedMainRegion = selectedRegion;
             selectedSubDirection = null; 
+            if(mobileMainSelect) mobileMainSelect.value = selectedRegion;
+            
             document.getElementById('current-main').innerText = selectedRegion;
             document.getElementById('arrow-separator').style.display = "inline";
             document.getElementById('current-sub').innerText = "Select Direction";
@@ -341,6 +394,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('col-sub-wheel').classList.remove('disabled-wheel');
             buildWheel(2, "sub-wheel-container", subDirectionsList, (selectedDir) => {
                 selectedSubDirection = selectedDir;
+                if(mobileSubSelect) mobileSubSelect.value = selectedDir;
                 triggerTeleport(selectedMainRegion, selectedDir);
             }, selectedSubDirection);
         }, selectedMainRegion);
@@ -362,6 +416,12 @@ document.addEventListener("DOMContentLoaded", function () {
         selectedSubDirection = null;
         activeWaypointId = null;
         
+        if(mobileMainSelect) mobileMainSelect.value = "";
+        if(mobileSubSelect) {
+            mobileSubSelect.innerHTML = '<option value="">-- Select Direction --</option>';
+            mobileSubSelect.disabled = true;
+        }
+
         document.getElementById('current-main').innerText = "Select Region";
         document.getElementById('arrow-separator').style.display = "none";
         document.getElementById('current-sub').innerText = "";
@@ -431,6 +491,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 selectedMainRegion = point.mainRegion;
                 selectedSubDirection = point.subDirection;
                 
+                if(mobileMainSelect) mobileMainSelect.value = point.mainRegion;
+                if(mobileSubSelect) {
+                    mobileSubSelect.innerHTML = `<option value="${point.subDirection}">${point.subDirection}</option>`;
+                    mobileSubSelect.disabled = false;
+                }
+
                 document.getElementById('current-main').innerText = point.mainRegion;
                 document.getElementById('arrow-separator').style.display = "inline";
                 document.getElementById('current-sub').innerText = point.subDirection;
