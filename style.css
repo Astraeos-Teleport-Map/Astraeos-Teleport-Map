@@ -107,6 +107,8 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* FIX FÜR FIREFOX MOBILE: Erzwingt den Skalierungsmittelpunkt */
+    transform-origin: center center; 
 }
 
 .main-wrapper-size { 
@@ -149,6 +151,7 @@ h2 {
     stroke-width: 2;
     cursor: pointer;
     transition: fill 0.15s, stroke 0.15s;
+    pointer-events: auto; /* Klicks explizit erlauben */
 }
 
 .wheel-slice-path:hover {
@@ -166,6 +169,7 @@ h2 {
     fill: #05080c;
     stroke: #1b2a36;
     stroke-width: 2;
+    pointer-events: none; /* Verhindert Störungen beim Klicken im Zentrum */
 }
 
 /* --- LABELS CONFIG --- */
@@ -194,7 +198,7 @@ h2 {
     box-shadow: 0 4px 10px rgba(0,0,0,0.6);
     transform: translate(-50%, -50%); 
     transition: all 0.12s ease;
-    pointer-events: none;
+    pointer-events: none; /* Wichtig: Text blockiert keine Klicks aufs Rad */
 }
 
 .html-wheel-label.active-text {
@@ -265,7 +269,7 @@ h2 {
 }
 
 /* =========================================================================
-   STRIKTES LAYOUT FÜR MOBILE BROWSER (Greift nur bei Bildschirmen <= 900px)
+   STRIKTES LAYOUT FÜR MOBILE BROWSER (Chrome, Safari & Firefox Mobile)
    ========================================================================= */
 @media (max-width: 900px) {
     body {
@@ -299,7 +303,7 @@ h2 {
         gap: 35px;
     }
 
-    /* Skaliert das Haupt-Rad perfekt herunter, ohne die Textberechnungen zu verfälschen */
+    /* Skaliert das Haupt-Rad perfekt herunter */
     .main-wrapper-size {
         transform: scale(0.55);
         margin-top: -120px;
