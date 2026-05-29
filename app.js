@@ -339,6 +339,9 @@ document.addEventListener("DOMContentLoaded", function () {
             activeWaypointId = null;
             refreshCoordsToActiveState(); 
 
+            // SOFORT-FEEDBACK: Zeichnet das große Rad direkt blau neu nach dem Klick
+            initUiState();
+
             document.getElementById('col-sub-wheel').classList.remove('disabled-wheel');
             buildWheel(2, "sub-wheel-container", subDirectionsList, (selectedDir) => {
                 selectedSubDirection = selectedDir;
