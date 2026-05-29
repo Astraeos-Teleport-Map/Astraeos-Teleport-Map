@@ -1,6 +1,5 @@
 /* Core Reset and Styles */
 * {
-    box-shadow: border-box;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -14,7 +13,7 @@ body {
     overflow: hidden;
 }
 
-/* FLEXBOX RESPONSIV: Auf kleinen Bildschirmen untereinander, sonst nebeneinander */
+/* APP LAYOUT - DESKTOP FIRST */
 .app-container {
     display: flex;
     flex-direction: row;
@@ -22,7 +21,6 @@ body {
     height: 100vh;
 }
 
-/* LINKES PANEL: Verhindert das Quetschen der Räder auf kleinen Monitoren */
 .left-panel {
     width: 58%; 
     min-width: 620px; 
@@ -70,7 +68,6 @@ h2 {
 #current-main { color: #ffffff; }
 #current-sub { color: #00d2ff; }
 
-/* --- SIDE-BY-SIDE SPLIT CONFIG --- */
 .wheels-split-container {
     display: flex;
     flex-direction: row;
@@ -85,7 +82,7 @@ h2 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-shrink: 0; /* Verhindert Stauchung auf Desktop */
+    flex-shrink: 0; 
 }
 
 .wheel-title {
@@ -102,7 +99,7 @@ h2 {
     pointer-events: none;
 }
 
-/* --- SYSTEM GEOMETRY --- */
+/* WHEELS GEOMETRY - STANDARDS */
 .wheel-wrapper {
     position: relative;
     display: flex;
@@ -143,7 +140,6 @@ h2 {
     overflow: visible;
 }
 
-/* Slices Design */
 .wheel-slice-path {
     fill: #0d141b;
     stroke: #1b2a36;
@@ -169,7 +165,6 @@ h2 {
     stroke-width: 2;
 }
 
-/* --- LABELS CONFIG --- */
 .wheel-labels-container {
     position: absolute;
     width: 100%;
@@ -220,7 +215,6 @@ h2 {
     max-width: 90%;
 }
 
-/* --- MAP --- */
 #map {
     width: 100%;
     flex-grow: 1;
@@ -242,7 +236,6 @@ h2 {
     box-shadow: 0 0 15px #ffbc00, 0 0 30px #ffbc00 !important;
 }
 
-/* --- LIVE COORDINATES PANEL --- */
 .map-coordinates-panel {
     position: absolute;
     top: 20px;
@@ -266,7 +259,7 @@ h2 {
 }
 
 /* =========================================================================
-   ERZWUNGENES MOBIL-LAYOUT (BEHEBT DAS NEBENBENEINANDER-PROBLEM)
+   MOBILE RESPONSIVE OVERRIDE (Unterstützt Chrome & Firefox Mobile gleichermaßen)
    ========================================================================= */
 @media screen and (max-width: 900px) {
     body {
@@ -277,89 +270,52 @@ h2 {
     .app-container {
         flex-direction: column !important;
         height: auto !important;
-        width: 100% !important;
     }
-    
+
     .left-panel {
         width: 100% !important;
-        min-width: 0px !important; /* WICHTIG: Überschreibt die 620px Desktop-Sperre komplett */
-        max-width: 100% !important;
+        min-width: 0px !important; 
+        height: auto !important;
+        padding: 15px 10px !important;
         border-right: none !important;
         border-bottom: 3px solid #00d2ff !important;
-        height: auto !important;
-        padding: 15px 5px !important;
-        display: flex !important;
-        flex-direction: column !important;
     }
-    
+
     .right-panel {
         width: 100% !important;
-        height: 65vh !important; 
-        min-height: 400px !important;
+        height: 65vh !important;
+        min-height: 450px !important;
         padding: 15px !important;
-        display: flex !important;
     }
 
-    /* Zwingt die Boxen bedingungslos untereinander (Blockiert Spalten-Modus) */
     .wheels-split-container {
         flex-direction: column !important;
-        display: flex !important;
-        width: 100% !important;
+        gap: 20px !important;
         align-items: center !important;
-        justify-content: center !important;
-        gap: 35px !important;
+        width: 100% !important;
     }
 
-    /* FIX FÜR FIREFOX MOBILE: Erlaubt das Verkleinern im mobilen Fluss */
     .wheel-column {
         width: 100% !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        flex-shrink: 1 !important; /* Erlaubt das adaptive Anpassen auf Handys */
+        height: auto !important;
     }
 
-    /* Skalierung über Viewport-Breite (vw) sorgt für perfekte Kreis-Proportionen */
+    /* CSS-Scale schrumpft die Boxen mitsamt Texten ohne Layoutzerstörung im Firefox */
     .main-wrapper-size {
-        width: 90vw !important;
-        height: 90vw !important;
-        max-width: 360px !important;
-        max-height: 360px !important;
+        width: 570px !important;
+        height: 570px !important;
+        transform: scale(0.56) !important;
+        transform-origin: center center !important;
+        margin-top: -120px !important;
+        margin-bottom: -120px !important;
     }
 
     .sub-wrapper-size {
-        width: 72vw !important;
-        height: 72vw !important;
-        max-width: 260px !important;
-        max-height: 260px !important;
-    }
-
-    #main-wheel-container {
-        width: 42% !important;  
-        height: 42% !important;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-    }
-
-    #sub-wheel-container {
-        width: 46% !important;
-        height: 46% !important;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-    }
-
-    /* Automatische Text-Verkleinerung auf Smartphones */
-    .main-wrapper-size .html-wheel-label {
-        font-size: 0.38rem !important;
-        width: 65px !important;
-        padding: 2px 3px !important;
-    }
-
-    .sub-wrapper-size .html-wheel-label {
-        font-size: 0.68rem !important;
-        width: 38px !important;
-        padding: 2px !important;
+        width: 320px !important;
+        height: 320px !important;
+        transform: scale(0.85) !important;
+        transform-origin: center center !important;
+        margin-top: -20px !important;
+        margin-bottom: -20px !important;
     }
 }
