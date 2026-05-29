@@ -47,30 +47,26 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
 
-    // --- NEU: LONGPRESS / 2 SEKUNDEN GEDRÜCKTHALTEN LOGIK ---
+    // --- LONGPRESS / 2 SEKUNDEN GEDRÜCKTHALTEN LOGIK (REPARIERT) ---
     let pressTimer;
     
     function startPress(e) {
-        // Falls bereits ein Timer läuft, löschen
         if (pressTimer) clearTimeout(pressTimer);
         
-        // Leaflet-Mauskoordinaten für den Klickpunkt bestimmen
         const latlng = map.mouseEventToLatLng(e.originalEvent || e);
         const converted = convertCoordinates(latlng.lat, latlng.lng);
         
-        // Timer auf 2000 Millisekunden (2 Sekunden) setzen
         pressTimer = setTimeout(() => {
             const command = `cheat tp ${parseFloat(converted.lat).toFixed(1)} ${parseFloat(converted.lon).toFixed(1)}`;
             
             navigator.clipboard.writeText(command).then(() => {
-                // Ein temporäres visuelles Feedback direkt auf der Karte anzeigen
-                const flashPopup = L.popup()
+                // FIX: Variable umbenannt zu 'customPopup', um Konflikte zu vermeiden
+                const customPopup = L.popup()
                     .setLatLng(latlng)
                     .setContent(`<b style="color: #ffbc00;">TP CODE COPIED!</b><br>Custom Location:<br>Lat: ${converted.lat} | Lon: ${converted.lon}`)
                     .openOn(map);
                 
-                // Nach 1.5 Sekunden schließt sich das Infofenster automatisch wieder
-                setTimeout(() => { map.closePopup(flashPopup); }, 1500);
+                setTimeout(() => { map.closePopup(customPopup); }, 1500);
             }).catch(err => {
                 console.error("Fehler beim Kopieren: ", err);
             });
@@ -81,15 +77,14 @@ document.addEventListener("DOMContentLoaded", function () {
         if (pressTimer) clearTimeout(pressTimer);
     }
 
-    // Event-Listener an die Karte hängen (Sowohl für PC-Maus als auch Handy-Touch)
+    // Event-Listener für die Karte
     map.on('mousedown', startPress);
     map.on('touchstart', startPress);
-    
     map.on('mouseup', cancelPress);
     map.on('mouseleave', cancelPress);
     map.on('touchend', cancelPress);
-    map.on('movestart', cancelPress); // Abbrechen, wenn die Karte verschoben wird
-    map.on('zoomstart', cancelPress); // Abbrechen beim Zoomen
+    map.on('movestart', cancelPress); 
+    map.on('zoomstart', cancelPress); 
 
     // =========================================================================
     // WHEELS CONFIGURATION LISTS
