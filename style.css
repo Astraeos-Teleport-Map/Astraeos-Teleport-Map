@@ -13,6 +13,313 @@ body {
     overflow: hidden;
 }
 
+.app-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh;
+}
+
+.left-panel {
+    width: 58%; 
+    min-width: 620px;
+    background-color: #0a0f14;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border-right: 3px solid #00d2ff;
+    box-shadow: 5px 0 25px rgba(0,0,0,0.8);
+    overflow-y: auto;
+}
+
+.right-panel {
+    width: 42%;
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+h2 {
+    margin-bottom: 10px;
+    color: #00d2ff;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+}
+
+#breadcrumb-bar {
+    background-color: #040608;
+    padding: 12px;
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #14202a;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+#current-main { color: #ffffff; }
+#current-sub { color: #00d2ff; }
+
+.wheels-split-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.wheel-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.wheel-title {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #55728c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.disabled-wheel {
+    opacity: 0.18;
+    pointer-events: none;
+}
+
+/* --- SYSTEM GEOMETRY (PC VERSION) --- */
+.wheel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-wrapper-size { 
+    width: 570px; 
+    height: 570px; 
+}
+
+.sub-wrapper-size { 
+    width: 320px; 
+    height: 320px; 
+}
+
+#main-wheel-container {
+    position: absolute;
+    width: 240px;  
+    height: 240px;
+    z-index: 2;
+    top: 52.6%;
+    left: 52.6%;
+    transform: translate(-50%, -50%);
+}
+
+#sub-wheel-container {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    z-index: 2;
+}
+
+.wheel-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.wheel-slice-path {
+    fill: #0d141b;
+    stroke: #1b2a36;
+    stroke-width: 2;
+    cursor: pointer;
+    transition: fill 0.15s, stroke 0.15s;
+}
+
+.wheel-slice-path:hover {
+    fill: rgba(0, 210, 255, 0.25);
+    stroke: #00d2ff;
+}
+
+.wheel-slice-path.active-slice {
+    fill: rgba(0, 210, 255, 0.55) !important;
+    stroke: #00d2ff !important;
+    filter: drop-shadow(0 0 10px #00d2ff);
+}
+
+.wheel-center-hole {
+    fill: #05080c;
+    stroke: #1b2a36;
+    stroke-width: 2;
+}
+
+.wheel-labels-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.html-wheel-label {
+    position: absolute;
+    background: rgba(13, 20, 27, 0.95);
+    border: 1px solid #1c2d3d;
+    padding: 5px 6px;
+    border-radius: 4px;
+    font-size: 0.53rem; 
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #9cb1c5;
+    text-align: center;
+    line-height: 1.2;
+    white-space: normal;
+    width: 95px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    transform: translate(-50%, -50%); 
+    transition: all 0.12s ease;
+    pointer-events: none;
+}
+
+.html-wheel-label.active-text {
+    color: #00d2ff !important;
+    border-color: #00d2ff !important;
+    background: rgba(0, 210, 255, 0.15);
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+}
+
+.tier2-label {
+    font-size: 0.85rem; 
+    color: #00d2ff;
+    width: 42px;
+    padding: 4px;
+}
+
+.helper-text {
+    font-size: 0.8rem;
+    color: #435363;
+    text-align: center;
+    margin-top: 20px;
+    max-width: 90%;
+}
+
+#map {
+    width: 100%;
+    flex-grow: 1;
+    background-color: #040608;
+    border: 2px solid #14202a;
+    border-radius: 6px;
+}
+
+.small-tp-marker {
+    background-color: #00d2ff !important;
+    border: 2px solid #ffffff !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 8px #00d2ff;
+}
+
+.highlighted-marker {
+    background-color: #ffbc00 !important;
+    border-color: #ffffff !important;
+    box-shadow: 0 0 15px #ffbc00, 0 0 30px #ffbc00 !important;
+}
+
+.map-coordinates-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(10, 15, 20, 0.85);
+    border: 1px solid #14202a;
+    border-left: 3px solid #00d2ff;
+    padding: 10px 14px;
+    border-radius: 4px;
+    z-index: 1000;
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: #9cb1c5;
+    pointer-events: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    min-width: 140px;
+}
+
+.map-coordinates-panel b {
+    color: #00d2ff;
+}
+
+/* =========================================================================
+   PURE MOBILE LAYOUT (PC values stay 100% untouched)
+   ========================================================================= */
+@media (max-width: 768px) {
+    body {
+        overflow-y: auto;
+    }
+
+    .app-container {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .left-panel {
+        width: 100%;
+        min-width: 100%;
+        border-right: none;
+        border-bottom: 3px solid #00d2ff;
+        height: auto;
+        padding: 15px;
+    }
+    
+    .right-panel {
+        width: 100%;
+        height: 70vh;
+        padding: 15px;
+    }
+
+    .wheels-split-container {
+        flex-direction: column;
+        gap: 35px;
+    }
+
+    .main-wrapper-size {
+        width: 340px;
+        height: 340px;
+    }
+    
+    #main-wheel-container {
+        width: 140px;
+        height: 140px;
+    }
+
+    .main-wrapper-size .html-wheel-label {
+        font-size: 0.44rem;
+        width: 68px;
+        padding: 3px;
+    }
+}/* Core Reset and Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #080c10;
+    color: #ffffff;
+    height: 100vh;
+    overflow: hidden;
+}
+
 /* FLEXBOX RESPONSIV: Auf kleinen Bildschirmen untereinander, sonst nebeneinander */
 .app-container {
     display: flex;
