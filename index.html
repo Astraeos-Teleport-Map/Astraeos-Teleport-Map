@@ -21,6 +21,57 @@
 
             <div class="wheels-split-container">
                 
+                <div class="wheel-column" id="col-main-wheel">
+                    <div class="wheel-title">Main Region</div>
+                    <div class="wheel-wrapper main-wrapper-size">
+                        <div id="main-wheel-container"></div>
+                    </div>
+                </div>
+
+                <div class="wheel-column" id="col-sub-wheel">
+                    <div class="wheel-title">Direction</div>
+                    <div class="wheel-wrapper sub-wrapper-size">
+                        <div id="sub-wheel-container"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <p class="helper-text">First select the Main Region. Then select the desired Direction.</p>
+        </div>
+
+        <div class="right-panel">
+            <h2>Astraeos Map</h2>
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Astraeos Teleport Tracker</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="left-panel">
+            <h2>Astraeos Teleport System</h2>
+            
+            <div id="breadcrumb-bar">
+                <span id="current-main">Select Region</span> 
+                <span id="arrow-separator" style="display:none;"> &gt; </span> 
+                <span id="current-sub"></span>
+            </div>
+
+            <div class="wheels-split-container">
+                
                 <div class="wheel-column">
                     <div class="wheel-title">Main Region</div>
                     <div class="wheel-wrapper main-wrapper-size">
