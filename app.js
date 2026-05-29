@@ -29,22 +29,67 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // UNIVERSELLE KOPIER-FUNKTION FÜR ARK
     window.copyArkCommand = function(lat, lon, buttonElement) {
-        // Hier wird der In-Game-Befehl zusammengebaut
         const command = `cheat tp ${parseFloat(lat).toFixed(1)} ${parseFloat(lon).toFixed(1)}`;
         
         navigator.clipboard.writeText(command).then(() => {
-            const originalText = buttonElement.innerText;
-            buttonElement.innerText = "COPIED!";
-            buttonElement.style.background = "#ffbc00";
-            
-            setTimeout(() => {
-                buttonElement.innerText = originalText;
-                buttonElement.style.background = "#00d2ff";
-            }, 1200);
+            if (buttonElement) {
+                const originalText = buttonElement.innerText;
+                buttonElement.innerText = "COPIED!";
+                buttonElement.style.background = "#ffbc00";
+                
+                setTimeout(() => {
+                    buttonElement.innerText = originalText;
+                    buttonElement.style.background = "#00d2ff";
+                }, 1200);
+            }
         }).catch(err => {
             console.error("Fehler beim Kopieren: ", err);
         });
     };
+
+    // --- NEU: LONGPRESS / 2 SEKUNDEN GEDRÜCKTHALTEN LOGIK ---
+    let pressTimer;
+    
+    function startPress(e) {
+        // Falls bereits ein Timer läuft, löschen
+        if (pressTimer) clearTimeout(pressTimer);
+        
+        // Leaflet-Mauskoordinaten für den Klickpunkt bestimmen
+        const latlng = map.mouseEventToLatLng(e.originalEvent || e);
+        const converted = convertCoordinates(latlng.lat, latlng.lng);
+        
+        // Timer auf 2000 Millisekunden (2 Sekunden) setzen
+        pressTimer = setTimeout(() => {
+            const command = `cheat tp ${parseFloat(converted.lat).toFixed(1)} ${parseFloat(converted.lon).toFixed(1)}`;
+            
+            navigator.clipboard.writeText(command).then(() => {
+                // Ein temporäres visuelles Feedback direkt auf der Karte anzeigen
+                const flashPopup = L.popup()
+                    .setLatLng(latlng)
+                    .setContent(`<b style="color: #ffbc00;">TP CODE COPIED!</b><br>Custom Location:<br>Lat: ${converted.lat} | Lon: ${converted.lon}`)
+                    .openOn(map);
+                
+                // Nach 1.5 Sekunden schließt sich das Infofenster automatisch wieder
+                setTimeout(() => { map.closePopup(flashPopup); }, 1500);
+            }).catch(err => {
+                console.error("Fehler beim Kopieren: ", err);
+            });
+        }, 2000);
+    }
+
+    function cancelPress() {
+        if (pressTimer) clearTimeout(pressTimer);
+    }
+
+    // Event-Listener an die Karte hängen (Sowohl für PC-Maus als auch Handy-Touch)
+    map.on('mousedown', startPress);
+    map.on('touchstart', startPress);
+    
+    map.on('mouseup', cancelPress);
+    map.on('mouseleave', cancelPress);
+    map.on('touchend', cancelPress);
+    map.on('movestart', cancelPress); // Abbrechen, wenn die Karte verschoben wird
+    map.on('zoomstart', cancelPress); // Abbrechen beim Zoomen
 
     // =========================================================================
     // WHEELS CONFIGURATION LISTS
@@ -215,11 +260,6 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 151, mainRegion: "Pyranthos North", subDirection: "W", name: "Pyranthos North - [W] Terminal", coordinates: [87.6, 53.6] },
         { id: 152, mainRegion: "Pyranthos North", subDirection: "NW", name: "Pyranthos North - [NW] Terminal", coordinates: [87.2, 54.2] }
     ];
-
-    let selectedMainRegion = null;
-    let selectedSubDirection = null; 
-    let activeWaypointId = null;     
-    let markerElementsMap = {};
 
     function getLeafletPixels(lat, lon) {
         let rawX = lon * 10;
@@ -414,12 +454,11 @@ document.addEventListener("DOMContentLoaded", function () {
             updateCoordsDisplay(match.coordinates[0], match.coordinates[1], true);
             initUiState();
 
-            // Erstellt das Popup mit integriertem Kopier-Button
             L.popup()
                 .setLatLng(pixelCoords)
                 .setContent(`
                     <b>${match.name}</b><br>Path:<br>${mainReg} &rarr; ${subDir}<br>
-                    <button class="tp-copy-btn" onclick="copyArkCommand(${match.coordinates[0]}, ${match.coordinates[1], this})">Copy Command</button>
+                    <button class="tp-copy-btn" onclick="copyArkCommand(${match.coordinates[0]}, ${match.coordinates[1]}, this)">Copy Command</button>
                 `)
                 .openOn(map);
         } else {
@@ -467,7 +506,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 updateCoordsDisplay(point.coordinates[0], point.coordinates[1], true);
                 initUiState();
                 
-                // Marker-Popup bekommt ebenfalls den Kopier-Button spendiert
                 marker.bindPopup(`
                     <b>${point.name}</b><br>
                     <button class="tp-copy-btn" onclick="copyArkCommand(${point.coordinates[0]}, ${point.coordinates[1]}, this)">Copy Command</button>
@@ -484,7 +522,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     map.on('mousemove', function(e) {
         let converted = convertCoordinates(e.latlng.lat, e.latlng.lng);
-        // Nur updaten, wenn kein Punkt fixiert ist
         if (!activeWaypointId) {
             updateCoordsDisplay(converted.lat, converted.lon, false);
         }
