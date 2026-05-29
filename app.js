@@ -1,7 +1,5 @@
-// Wartet aktiv, bis das HTML auf dem Webserver vollständig geladen wurde
 document.addEventListener("DOMContentLoaded", function () {
     
-    // Prüfen, ob die benötigten HTML-Container existieren
     const mapContainer = document.getElementById('map');
     const wheelContainer = document.getElementById('main-wheel-container');
     
@@ -21,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const bounds = [[0, 0], [1000, 1000]];
     map.fitBounds(bounds);
     
-    // Lädt das Bild relativ zum Skript-Standort
     L.imageOverlay('images/astraeos-map.jpg', bounds).addTo(map);
 
     // CREATION OF THE COORDINATES PANEL (TOP RIGHT)
@@ -179,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // --- 14. Therokis East ---
         { id: 105, mainRegion: "Therokis East", subDirection: "N", name: "Therokis East - [N] Terminal", coordinates: [65.0, 85.0] },
         { id: 106, mainRegion: "Therokis East", subDirection: "NE", name: "Therokis East - [NE] Terminal", coordinates: [64.6, 85.6] },
-                { id: 107, mainRegion: "Therokis East", subDirection: "E", name: "Therokis East - [E] Terminal", coordinates: [64.2, 86.2] },
+        { id: 107, mainRegion: "Therokis East", subDirection: "E", name: "Therokis East - [E] Terminal", coordinates: [64.2, 86.2] },
         { id: 108, mainRegion: "Therokis East", subDirection: "SE", name: "Therokis East - [SE] Terminal", coordinates: [63.8, 86.8] },
         { id: 109, mainRegion: "Therokis East", subDirection: "S", name: "Therokis East - [S] Terminal", coordinates: [63.4, 87.4] },
         { id: 110, mainRegion: "Therokis East", subDirection: "SW", name: "Therokis East - [SW] Terminal", coordinates: [63.0, 88.0] },
