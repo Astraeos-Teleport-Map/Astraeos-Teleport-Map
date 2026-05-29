@@ -282,7 +282,6 @@ h2 {
         padding: 15px !important;
     }
 
-    /* Zwingt die Kreis-Spalten sauber untereinander */
     .wheels-split-container {
         flex-direction: column !important;
         gap: 30px !important;
@@ -296,8 +295,6 @@ h2 {
         height: auto !important;
     }
 
-    /* FIX FÜR DIE TEXTBOXEN: CSS-Scale verkleinert das komplette Element im 
-       Zentrum, ohne die mathematischen Berechnungen im JS aufzubrechen. */
     .main-wrapper-size {
         width: 570px !important;
         height: 570px !important;
