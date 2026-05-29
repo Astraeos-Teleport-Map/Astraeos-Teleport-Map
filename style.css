@@ -13,7 +13,7 @@ body {
     overflow: hidden;
 }
 
-/* APP LAYOUT - DESKTOP FIRST */
+/* APP CONTAINER */
 .app-container {
     display: flex;
     flex-direction: row;
@@ -68,6 +68,51 @@ h2 {
 #current-main { color: #ffffff; }
 #current-sub { color: #00d2ff; }
 
+/* MOBILE CONTROLS (Standardmäßig auf PC versteckt) */
+.mobile-dropdown-container {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.mobile-input-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+}
+
+.mobile-input-group label {
+    font-size: 0.85rem;
+    color: #55728c;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.mobile-input-group select {
+    background-color: #0d141b;
+    color: #ffffff;
+    border: 1px solid #1b2a36;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1rem;
+    width: 100%;
+    outline: none;
+    cursor: pointer;
+}
+
+.mobile-input-group select:focus {
+    border-color: #00d2ff;
+}
+
+.mobile-input-group select:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* DESKTOP WHEELS LAYOUT */
 .wheels-split-container {
     display: flex;
     flex-direction: row;
@@ -99,7 +144,6 @@ h2 {
     pointer-events: none;
 }
 
-/* WHEELS GEOMETRY - STANDARDS */
 .wheel-wrapper {
     position: relative;
     display: flex;
@@ -107,15 +151,8 @@ h2 {
     justify-content: center;
 }
 
-.main-wrapper-size { 
-    width: 570px; 
-    height: 570px; 
-}
-
-.sub-wrapper-size { 
-    width: 320px; 
-    height: 320px; 
-}
+.main-wrapper-size { width: 570px; height: 570px; }
+.sub-wrapper-size { width: 320px; height: 320px; }
 
 #main-wheel-container {
     position: absolute;
@@ -215,6 +252,7 @@ h2 {
     max-width: 90%;
 }
 
+/* MAP STYLES */
 #map {
     width: 100%;
     flex-grow: 1;
@@ -259,7 +297,7 @@ h2 {
 }
 
 /* =========================================================================
-   MOBILE RESPONSIVE OVERRIDE (Unterstützt Chrome & Firefox Mobile gleichermaßen)
+   RESPONSIVES MOBILE-LAYOUT (Für alle mobilen Browser)
    ========================================================================= */
 @media screen and (max-width: 900px) {
     body {
@@ -276,46 +314,25 @@ h2 {
         width: 100% !important;
         min-width: 0px !important; 
         height: auto !important;
-        padding: 15px 10px !important;
+        padding: 20px 15px !important;
         border-right: none !important;
         border-bottom: 3px solid #00d2ff !important;
     }
 
     .right-panel {
         width: 100% !important;
-        height: 65vh !important;
-        min-height: 450px !important;
+        height: 60vh !important; /* Karte perfekt dimensioniert unter dem Menü */
+        min-height: 400px !important;
         padding: 15px !important;
     }
 
+    /* Blendet die verzerrenden Kreise auf dem Handy aus */
     .wheels-split-container {
-        flex-direction: column !important;
-        gap: 20px !important;
-        align-items: center !important;
-        width: 100% !important;
+        display: none !important;
     }
 
-    .wheel-column {
-        width: 100% !important;
-        height: auto !important;
-    }
-
-    /* CSS-Scale schrumpft die Boxen mitsamt Texten ohne Layoutzerstörung im Firefox */
-    .main-wrapper-size {
-        width: 570px !important;
-        height: 570px !important;
-        transform: scale(0.56) !important;
-        transform-origin: center center !important;
-        margin-top: -120px !important;
-        margin-bottom: -120px !important;
-    }
-
-    .sub-wrapper-size {
-        width: 320px !important;
-        height: 320px !important;
-        transform: scale(0.85) !important;
-        transform-origin: center center !important;
-        margin-top: -20px !important;
-        margin-bottom: -20px !important;
+    /* Zeigt das saubere, mobile Auswahlsystem an */
+    .mobile-dropdown-container {
+        display: flex !important;
     }
 }
