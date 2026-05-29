@@ -30,12 +30,11 @@ const subDirectionsList = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
 // =========================================================================
 // WAYPOINTS DATABASE
 // HIER TRÄGST DU JETZT EINFACH 1:1 DIE IN-GAME WERTE EIN [Lat, Lon]!
-// Beispiel: [39.5, 48.0]
 // =========================================================================
 const teleportWaypoints = [
     // --- 1. Pyranthos North East ---
-    { id: 1, mainRegion: "Pyranthos North East", subDirection: "N", name: "Pyranthos North East - [N] Terminal", coordinates: [78.3, 100.0] },
-    { id: 2, mainRegion: "Pyranthos North East", subDirection: "NE", name: "Pyranthos North East - [NE] Terminal", coordinates: [78.3, 100.0] },
+    { id: 1, mainRegion: "Pyranthos North East", subDirection: "N", name: "Pyranthos North East - [N] Terminal", coordinates: [39.5, 48.0] },
+    { id: 2, mainRegion: "Pyranthos North East", subDirection: "NE", name: "Pyranthos North East - [NE] Terminal", coordinates: [85.0, 58.0] },
     { id: 3, mainRegion: "Pyranthos North East", subDirection: "E", name: "Pyranthos North East - [E] Terminal", coordinates: [84.6, 58.6] },
     { id: 4, mainRegion: "Pyranthos North East", subDirection: "SE", name: "Pyranthos North East - [SE] Terminal", coordinates: [84.2, 59.2] },
     { id: 5, mainRegion: "Pyranthos North East", subDirection: "S", name: "Pyranthos North East - [S] Terminal", coordinates: [83.8, 59.8] },
@@ -64,7 +63,7 @@ const teleportWaypoints = [
     { id: 24, mainRegion: "Pyranthos West", subDirection: "NW", name: "Pyranthos West - [NW] Terminal", coordinates: [67.2, 39.2] },
 
     // --- 4. Korinthos South East ---
-    { id: 25, mainRegion: "Korinthos South East", subDirection: "N", name: "Korinthos South East - [N] Terminal", coordinates: [25.0, 650] },
+    { id: 25, mainRegion: "Korinthos South East", subDirection: "N", name: "Korinthos South East - [N] Terminal", coordinates: [25.0, 65.0] },
     { id: 26, mainRegion: "Korinthos South East", subDirection: "NE", name: "Korinthos South East - [NE] Terminal", coordinates: [24.6, 65.6] },
     { id: 27, mainRegion: "Korinthos South East", subDirection: "E", name: "Korinthos South East - [E] Terminal", coordinates: [24.2, 66.2] },
     { id: 28, mainRegion: "Korinthos South East", subDirection: "SE", name: "Korinthos South East - [SE] Terminal", coordinates: [23.8, 66.8] },
@@ -232,7 +231,7 @@ let selectedSubDirection = null;
 let activeWaypointId = null;     
 let markerElementsMap = {};
 
-// NEU: Rechnet die reinen In-Game Werte (0-100) direkt in die benötigten Leaflet-Pixel um!
+// Rechnet die reinen In-Game Werte (0-100) direkt in die benötigten Leaflet-Pixel um
 function getLeafletPixels(lat, lon) {
     let rawX = lon * 10;
     let rawY = (100 - lat) * 10;
@@ -331,10 +330,14 @@ function buildWheel(tier, targetContainerId, optionsArray, onSliceClick, activeV
         svg.appendChild(path);
 
         const midAngle = startAngle + anglePerSlice / 2;
-        const wrapperSize = tier === 1 ? 600 : 320;
+        
+        // SMARTE KORREKTUR: Prüft, ob es ein Smartphone ist (Bildschirm schmaler als 768px)
+        const isMobile = window.innerWidth <= 768;
+        
+        const wrapperSize = tier === 1 ? (isMobile ? 340 : 600) : 320;
         const wrapperCenter = wrapperSize / 2;
         
-        const labelRadius = tier === 1 ? 250 : 110; 
+        const labelRadius = tier === 1 ? (isMobile ? 145 : 250) : 110; 
         
         const posX = wrapperCenter + labelRadius * Math.cos(midAngle);
         const posY = wrapperCenter + labelRadius * Math.sin(midAngle);
@@ -421,7 +424,6 @@ function triggerTeleport(mainReg, subDir) {
     if (match) {
         activeWaypointId = match.id;
         
-        // Konvertiert In-Game-Eingabe zu Map-Pixeln fürs Fliegen
         let pixelCoords = getLeafletPixels(match.coordinates[0], match.coordinates[1]);
         map.setView(pixelCoords, 1);
         
