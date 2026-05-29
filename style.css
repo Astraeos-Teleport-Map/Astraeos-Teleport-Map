@@ -107,8 +107,6 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* FIX FÜR FIREFOX MOBILE: Erzwingt den Skalierungsmittelpunkt */
-    transform-origin: center center; 
 }
 
 .main-wrapper-size { 
@@ -151,7 +149,6 @@ h2 {
     stroke-width: 2;
     cursor: pointer;
     transition: fill 0.15s, stroke 0.15s;
-    pointer-events: auto; /* Klicks explizit erlauben */
 }
 
 .wheel-slice-path:hover {
@@ -169,7 +166,6 @@ h2 {
     fill: #05080c;
     stroke: #1b2a36;
     stroke-width: 2;
-    pointer-events: none; /* Verhindert Störungen beim Klicken im Zentrum */
 }
 
 /* --- LABELS CONFIG --- */
@@ -198,7 +194,7 @@ h2 {
     box-shadow: 0 4px 10px rgba(0,0,0,0.6);
     transform: translate(-50%, -50%); 
     transition: all 0.12s ease;
-    pointer-events: none; /* Wichtig: Text blockiert keine Klicks aufs Rad */
+    pointer-events: none;
 }
 
 .html-wheel-label.active-text {
@@ -269,51 +265,91 @@ h2 {
 }
 
 /* =========================================================================
-   STRIKTES LAYOUT FÜR MOBILE BROWSER (Chrome, Safari & Firefox Mobile)
+   STRIKTES MOBIL-LAYOUT: Löst alle Firefox Mobile Darstellungsfehler
    ========================================================================= */
 @media (max-width: 900px) {
     body {
-        overflow-y: auto; /* Erlaubt das Scrollen nach unten auf dem Handy */
+        overflow-y: auto; 
     }
 
     .app-container {
-        flex-direction: column; /* Stapelt Panel und Map untereinander */
+        flex-direction: column !important;
         height: auto;
     }
     
     .left-panel {
-        width: 100%;
-        min-width: 100%;
+        width: 100% !important;
+        min-width: 100% !important; /* Aufhebung des VS-Code PC-Schutzes für Firefox Mobile */
+        max-width: 100% !important;
         border-right: none;
         border-bottom: 3px solid #00d2ff;
         height: auto;
         padding: 20px 10px;
+        display: flex !important;
+        flex-direction: column !important;
     }
     
     .right-panel {
-        width: 100%;
-        height: 70vh; /* Die Map bekommt ein festes Sichtfenster auf dem Handy */
+        width: 100% !important;
+        height: 70vh !important; /* Macht die Karte unter Firefox Mobile vollflächig sichtbar */
         padding: 15px;
+        display: flex !important;
     }
 
-    /* Ordnet Großes Rad und Kleines Rad sauber untereinander an */
+    /* Erzwingt eine strikte vertikale Abfolge unter Firefox Mobile */
     .wheels-split-container {
-        flex-direction: column;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 0px !important;
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .wheel-column {
+        width: 100%;
         align-items: center;
-        gap: 35px;
+        margin-bottom: 20px;
     }
 
-    /* Skaliert das Haupt-Rad perfekt herunter */
+    /* FIREFOX FIX: Entfernung von transform: scale(). Die Boxen werden stattdessen nativ verkleinert */
     .main-wrapper-size {
-        transform: scale(0.55);
-        margin-top: -120px;
-        margin-bottom: -120px;
+        width: 340px !important;
+        height: 340px !important;
     }
 
-    /* Skaliert das Richtungs-Rad leicht herunter */
     .sub-wrapper-size {
-        transform: scale(0.85);
-        margin-top: -15px;
-        margin-bottom: -15px;
+        width: 280px !important;
+        height: 280px !important;
+    }
+
+    /* Zentrierung korrigieren */
+    #main-wheel-container {
+        width: 140px !important;  
+        height: 140px !important;
+        top: 50% !important;
+        left: 50% !important;
+    }
+
+    #sub-wheel-container {
+        width: 130px !important;
+        height: 130px !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+    }
+
+    /* Schiebt die absoluten HTML-Labels via CSS-Grid-Kompensation an die richtige SVG-Position zurück */
+    .main-wrapper-size .html-wheel-label {
+        font-size: 0.38rem !important;
+        width: 65px !important;
+        padding: 2px 3px !important;
+        /* Verkleinert den Radius-Faktor mathematisch passend zum Firefox-Viewport */
+        margin-left: calc((100% - 600px) * var(--label-x, 0)); 
+    }
+
+    .sub-wrapper-size .html-wheel-label {
+        font-size: 0.7rem !important;
+        width: 38px !important;
+        padding: 3px !important;
     }
 }
