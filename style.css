@@ -243,50 +243,13 @@ h2 {
     font-family: monospace;
     font-size: 0.85rem;
     color: #9cb1c5;
+    pointer-events: none;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     min-width: 140px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
 }
 
 .map-coordinates-panel b {
     color: #00d2ff;
-}
-
-/* --- TELEPORT COPY BUTTONS (NEU) --- */
-.tp-copy-btn {
-    background: #00d2ff;
-    color: #05080c;
-    border: none;
-    padding: 5px 8px;
-    font-weight: bold;
-    font-size: 0.75rem;
-    border-radius: 4px;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: background 0.15s, transform 0.1s;
-    pointer-events: auto; /* Erlaubt Klicks im Panel */
-    margin-top: 2px;
-    display: block;
-    text-align: center;
-    width: 100%;
-}
-
-.tp-copy-btn:hover {
-    background: #ffffff;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-}
-
-.tp-copy-btn:active {
-    transform: scale(0.95);
-}
-
-/* Leaflet Popup Button Style */
-.leaflet-popup-content .tp-copy-btn {
-    margin-top: 8px;
-    padding: 6px 10px;
-    font-size: 0.8rem;
 }
 
 /* =========================================================================
