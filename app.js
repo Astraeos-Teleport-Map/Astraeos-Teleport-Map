@@ -24,8 +24,27 @@ document.addEventListener("DOMContentLoaded", function () {
     // CREATION OF THE COORDINATES PANEL (TOP RIGHT)
     const coordsPanel = document.createElement('div');
     coordsPanel.className = 'map-coordinates-panel';
-    coordsPanel.innerHTML = 'Coordinates: <br>Lat: <b>-</b> | Lon: <b>-</b>';
+    coordsPanel.innerHTML = '<div>Coordinates: <br>Lat: <b>-</b> | Lon: <b>-</b></div>';
     document.getElementById('map').appendChild(coordsPanel);
+
+    // UNIVERSELLE KOPIER-FUNKTION FÜR ARK
+    window.copyArkCommand = function(lat, lon, buttonElement) {
+        // Hier wird der In-Game-Befehl zusammengebaut
+        const command = `cheat tp ${parseFloat(lat).toFixed(1)} ${parseFloat(lon).toFixed(1)}`;
+        
+        navigator.clipboard.writeText(command).then(() => {
+            const originalText = buttonElement.innerText;
+            buttonElement.innerText = "COPIED!";
+            buttonElement.style.background = "#ffbc00";
+            
+            setTimeout(() => {
+                buttonElement.innerText = originalText;
+                buttonElement.style.background = "#00d2ff";
+            }, 1200);
+        }).catch(err => {
+            console.error("Fehler beim Kopieren: ", err);
+        });
+    };
 
     // =========================================================================
     // WHEELS CONFIGURATION LISTS
@@ -216,10 +235,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateCoordsDisplay(lat, lon, isStatic = false) {
         if (isStatic) {
-            coordsPanel.innerHTML = `Selected:<br>Lat: <b>${parseFloat(lat).toFixed(1)}</b> | Lon: <b>${parseFloat(lon).toFixed(1)}</b>`;
+            coordsPanel.innerHTML = `
+                <div>Selected:<br>Lat: <b>${parseFloat(lat).toFixed(1)}</b> | Lon: <b>${parseFloat(lon).toFixed(1)}</b></div>
+                <button class="tp-copy-btn" onclick="copyArkCommand(${lat}, ${lon}, this)">Copy TP Code</button>
+            `;
             coordsPanel.style.borderLeftColor = '#ffbc00'; 
         } else {
-            coordsPanel.innerHTML = `Coordinates:<br>Lat: <b>${parseFloat(lat).toFixed(1)}</b> | Lon: <b>${parseFloat(lon).toFixed(1)}</b>`;
+            coordsPanel.innerHTML = `<div>Coordinates:<br>Lat: <b>${parseFloat(lat).toFixed(1)}</b> | Lon: <b>${parseFloat(lon).toFixed(1)}</b></div>`;
             coordsPanel.style.borderLeftColor = '#00d2ff'; 
         }
     }
@@ -232,7 +254,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
         }
-        coordsPanel.innerHTML = 'Coordinates: <br>Lat: <b>-</b> | Lon: <b>-</b>';
+        coordsPanel.innerHTML = '<div>Coordinates: <br>Lat: <b>-</b> | Lon: <b>-</b></div>';
         coordsPanel.style.borderLeftColor = '#00d2ff';
     }
 
@@ -339,7 +361,6 @@ document.addEventListener("DOMContentLoaded", function () {
             activeWaypointId = null;
             refreshCoordsToActiveState(); 
 
-            // SOFORT-FEEDBACK: Zeichnet das große Rad direkt blau neu nach dem Klick
             initUiState();
 
             document.getElementById('col-sub-wheel').classList.remove('disabled-wheel');
@@ -393,9 +414,13 @@ document.addEventListener("DOMContentLoaded", function () {
             updateCoordsDisplay(match.coordinates[0], match.coordinates[1], true);
             initUiState();
 
+            // Erstellt das Popup mit integriertem Kopier-Button
             L.popup()
                 .setLatLng(pixelCoords)
-                .setContent(`<b>${match.name}</b><br>Path:<br>${mainReg} &rarr; ${subDir}`)
+                .setContent(`
+                    <b>${match.name}</b><br>Path:<br>${mainReg} &rarr; ${subDir}<br>
+                    <button class="tp-copy-btn" onclick="copyArkCommand(${match.coordinates[0]}, ${match.coordinates[1], this})">Copy Command</button>
+                `)
                 .openOn(map);
         } else {
             activeWaypointId = null;
@@ -441,7 +466,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 updateCoordsDisplay(point.coordinates[0], point.coordinates[1], true);
                 initUiState();
-                marker.bindPopup(`<b>${point.name}</b>`).openPopup();
+                
+                // Marker-Popup bekommt ebenfalls den Kopier-Button spendiert
+                marker.bindPopup(`
+                    <b>${point.name}</b><br>
+                    <button class="tp-copy-btn" onclick="copyArkCommand(${point.coordinates[0]}, ${point.coordinates[1]}, this)">Copy Command</button>
+                `).openPopup();
             });
         });
     }
@@ -454,7 +484,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     map.on('mousemove', function(e) {
         let converted = convertCoordinates(e.latlng.lat, e.latlng.lng);
-        updateCoordsDisplay(converted.lat, converted.lon, false);
+        // Nur updaten, wenn kein Punkt fixiert ist
+        if (!activeWaypointId) {
+            updateCoordsDisplay(converted.lat, converted.lon, false);
+        }
     });
 
     map.on('mouseout', function() {
