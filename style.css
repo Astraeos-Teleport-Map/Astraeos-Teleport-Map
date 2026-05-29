@@ -1,5 +1,6 @@
 /* Core Reset and Styles */
 * {
+    box-shadow: border-box;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -84,7 +85,7 @@ h2 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-shrink: 0; 
+    flex-shrink: 0; /* Verhindert Stauchung auf Desktop */
 }
 
 .wheel-title {
@@ -265,91 +266,100 @@ h2 {
 }
 
 /* =========================================================================
-   STRIKTES MOBIL-LAYOUT: Löst alle Firefox Mobile Darstellungsfehler
+   ERZWUNGENES MOBIL-LAYOUT (BEHEBT DAS NEBENBENEINANDER-PROBLEM)
    ========================================================================= */
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) {
     body {
-        overflow-y: auto; 
+        overflow-y: auto !important;
+        height: auto !important;
     }
 
     .app-container {
         flex-direction: column !important;
-        height: auto;
+        height: auto !important;
+        width: 100% !important;
     }
     
     .left-panel {
         width: 100% !important;
-        min-width: 100% !important; /* Aufhebung des VS-Code PC-Schutzes für Firefox Mobile */
+        min-width: 0px !important; /* WICHTIG: Überschreibt die 620px Desktop-Sperre komplett */
         max-width: 100% !important;
-        border-right: none;
-        border-bottom: 3px solid #00d2ff;
-        height: auto;
-        padding: 20px 10px;
+        border-right: none !important;
+        border-bottom: 3px solid #00d2ff !important;
+        height: auto !important;
+        padding: 15px 5px !important;
         display: flex !important;
         flex-direction: column !important;
     }
     
     .right-panel {
         width: 100% !important;
-        height: 70vh !important; /* Macht die Karte unter Firefox Mobile vollflächig sichtbar */
-        padding: 15px;
+        height: 65vh !important; 
+        min-height: 400px !important;
+        padding: 15px !important;
         display: flex !important;
     }
 
-    /* Erzwingt eine strikte vertikale Abfolge unter Firefox Mobile */
+    /* Zwingt die Boxen bedingungslos untereinander (Blockiert Spalten-Modus) */
     .wheels-split-container {
         flex-direction: column !important;
+        display: flex !important;
+        width: 100% !important;
         align-items: center !important;
-        gap: 0px !important;
-        margin-top: 10px;
-        width: 100%;
+        justify-content: center !important;
+        gap: 35px !important;
     }
 
+    /* FIX FÜR FIREFOX MOBILE: Erlaubt das Verkleinern im mobilen Fluss */
     .wheel-column {
-        width: 100%;
-        align-items: center;
-        margin-bottom: 20px;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        flex-shrink: 1 !important; /* Erlaubt das adaptive Anpassen auf Handys */
     }
 
-    /* FIREFOX FIX: Entfernung von transform: scale(). Die Boxen werden stattdessen nativ verkleinert */
+    /* Skalierung über Viewport-Breite (vw) sorgt für perfekte Kreis-Proportionen */
     .main-wrapper-size {
-        width: 340px !important;
-        height: 340px !important;
+        width: 90vw !important;
+        height: 90vw !important;
+        max-width: 360px !important;
+        max-height: 360px !important;
     }
 
     .sub-wrapper-size {
-        width: 280px !important;
-        height: 280px !important;
+        width: 72vw !important;
+        height: 72vw !important;
+        max-width: 260px !important;
+        max-height: 260px !important;
     }
 
-    /* Zentrierung korrigieren */
     #main-wheel-container {
-        width: 140px !important;  
-        height: 140px !important;
-        top: 50% !important;
-        left: 50% !important;
-    }
-
-    #sub-wheel-container {
-        width: 130px !important;
-        height: 130px !important;
+        width: 42% !important;  
+        height: 42% !important;
         top: 50% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
     }
 
-    /* Schiebt die absoluten HTML-Labels via CSS-Grid-Kompensation an die richtige SVG-Position zurück */
+    #sub-wheel-container {
+        width: 46% !important;
+        height: 46% !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+    }
+
+    /* Automatische Text-Verkleinerung auf Smartphones */
     .main-wrapper-size .html-wheel-label {
         font-size: 0.38rem !important;
         width: 65px !important;
         padding: 2px 3px !important;
-        /* Verkleinert den Radius-Faktor mathematisch passend zum Firefox-Viewport */
-        margin-left: calc((100% - 600px) * var(--label-x, 0)); 
     }
 
     .sub-wrapper-size .html-wheel-label {
-        font-size: 0.7rem !important;
+        font-size: 0.68rem !important;
         width: 38px !important;
-        padding: 3px !important;
+        padding: 2px !important;
     }
 }
