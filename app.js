@@ -1,26 +1,37 @@
-// Schutz vor Mehrfach-Deklaration: Nur initialisieren, wenn "map" noch nicht existiert
-if (typeof window.map === 'undefined') {
+// Wartet aktiv, bis das HTML auf dem Webserver vollständig geladen wurde
+document.addEventListener("DOMContentLoaded", function () {
     
-    // Globale Variablen an das window-Objekt binden, um "const"-Konflikte bei Reloads zu verhindern
-    window.map = L.map('map', {
+    // Prüfen, ob die benötigten HTML-Container existieren
+    const mapContainer = document.getElementById('map');
+    const wheelContainer = document.getElementById('main-wheel-container');
+    
+    if (!mapContainer || !wheelContainer) {
+        console.error("Kritischer Fehler: HTML-Elemente '#map' oder '#main-wheel-container' wurden im DOM nicht gefunden!");
+        return;
+    }
+
+    // 1. Map Initialization
+    const map = L.map('map', {
         crs: L.CRS.Simple,
         minZoom: -2,
         maxZoom: 2,
         initialZoom: -1
     });
-
+    
     const bounds = [[0, 0], [1000, 1000]];
-    window.map.fitBounds(bounds);
-    L.imageOverlay('images/astraeos-map.jpg', bounds).addTo(window.map);
+    map.fitBounds(bounds);
+    
+    // Lädt das Bild relativ zum Skript-Standort
+    L.imageOverlay('images/astraeos-map.jpg', bounds).addTo(map);
 
-    // ERSTELLUNG DES KOORDINATEN-PANELS
-    window.coordsPanel = document.createElement('div');
-    window.coordsPanel.className = 'map-coordinates-panel';
-    window.coordsPanel.innerHTML = 'Coordinates: <br>Lat: <b>-</b> | Lon: <b>-</b>';
-    document.getElementById('map').appendChild(window.coordsPanel);
+    // CREATION OF THE COORDINATES PANEL (TOP RIGHT)
+    const coordsPanel = document.createElement('div');
+    coordsPanel.className = 'map-coordinates-panel';
+    coordsPanel.innerHTML = 'Coordinates: <br>Lat: <b>-</b> | Lon: <b>-</b>';
+    document.getElementById('map').appendChild(coordsPanel);
 
     // =========================================================================
-    // CONFIGURATION LISTS
+    // WHEELS CONFIGURATION LISTS
     // =========================================================================
     const mainRegionsList = [
         "Pyranthos North East", "Pyranthos North West", "Pyranthos West",
@@ -190,7 +201,7 @@ if (typeof window.map === 'undefined') {
     ];
 
     // =========================================================================
-    // INTERNE ENGINE LOGIK
+    // ENGINE LOGIK
     // =========================================================================
     let selectedMainRegion = null;
     let selectedSubDirection = null; 
@@ -211,11 +222,11 @@ if (typeof window.map === 'undefined') {
 
     function updateCoordsDisplay(lat, lon, isStatic = false) {
         if (isStatic) {
-            window.coordsPanel.innerHTML = `Selected:<br>Lat: <b>${parseFloat(lat).toFixed(1)}</b> | Lon: <b>${parseFloat(lon).toFixed(1)}</b>`;
-            window.coordsPanel.style.borderLeftColor = '#ffbc00'; 
+            coordsPanel.innerHTML = `Selected:<br>Lat: <b>${parseFloat(lat).toFixed(1)}</b> | Lon: <b>${parseFloat(lon).toFixed(1)}</b>`;
+            coordsPanel.style.borderLeftColor = '#ffbc00'; 
         } else {
-            window.coordsPanel.innerHTML = `Coordinates:<br>Lat: <b>${parseFloat(lat).toFixed(1)}</b> | Lon: <b>${parseFloat(lon).toFixed(1)}</b>`;
-            window.coordsPanel.style.borderLeftColor = '#00d2ff'; 
+            coordsPanel.innerHTML = `Coordinates:<br>Lat: <b>${parseFloat(lat).toFixed(1)}</b> | Lon: <b>${parseFloat(lon).toFixed(1)}</b>`;
+            coordsPanel.style.borderLeftColor = '#00d2ff'; 
         }
     }
 
@@ -227,8 +238,8 @@ if (typeof window.map === 'undefined') {
                 return;
             }
         }
-        window.coordsPanel.innerHTML = 'Coordinates: <br>Lat: <b>-</b> | Lon: <b>-</b>';
-        window.coordsPanel.style.borderLeftColor = '#00d2ff';
+        coordsPanel.innerHTML = 'Coordinates: <br>Lat: <b>-</b> | Lon: <b>-</b>';
+        coordsPanel.style.borderLeftColor = '#00d2ff';
     }
 
     function buildWheel(tier, targetContainerId, optionsArray, onSliceClick, activeValue = null) {
@@ -362,7 +373,7 @@ if (typeof window.map === 'undefined') {
         document.getElementById('current-sub').innerText = "";
         
         clearAllMarkerHighlights();
-        window.map.closePopup();
+        map.closePopup();
         refreshCoordsToActiveState(); 
         initUiState();
     }
@@ -376,7 +387,7 @@ if (typeof window.map === 'undefined') {
         if (match) {
             activeWaypointId = match.id;
             let pixelCoords = getLeafletPixels(match.coordinates[0], match.coordinates[1]);
-            window.map.setView(pixelCoords, 1);
+            map.setView(pixelCoords, 1);
             
             if(markerElementsMap[match.id] && markerElementsMap[match.id]._icon) {
                 markerElementsMap[match.id]._icon.classList.add('highlighted-marker');
@@ -387,7 +398,7 @@ if (typeof window.map === 'undefined') {
             L.popup()
                 .setLatLng(pixelCoords)
                 .setContent(`<b>${match.name}</b><br>Path:<br>${mainReg} &rarr; ${subDir}`)
-                .openOn(window.map);
+                .openOn(map);
         } else {
             activeWaypointId = null;
             refreshCoordsToActiveState();
@@ -395,7 +406,7 @@ if (typeof window.map === 'undefined') {
         }
     }
 
-    const markerGroup = L.layerGroup().addTo(window.map);
+    const markerGroup = L.layerGroup().addTo(map);
 
     function loadMapMarkers() {
         markerGroup.clearLayers();
@@ -443,12 +454,12 @@ if (typeof window.map === 'undefined') {
         });
     }
 
-    window.map.on('mousemove', function(e) {
+    map.on('mousemove', function(e) {
         let converted = convertCoordinates(e.latlng.lat, e.latlng.lng);
         updateCoordsDisplay(converted.lat, converted.lon, false);
     });
 
-    window.map.on('mouseout', function() {
+    map.on('mouseout', function() {
         refreshCoordsToActiveState();
     });
 
@@ -460,4 +471,4 @@ if (typeof window.map === 'undefined') {
 
     initUiState();
     loadMapMarkers();
-}
+});
