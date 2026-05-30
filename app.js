@@ -28,19 +28,33 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('map').appendChild(coordsPanel);
 
     // =========================================================================
-    // WHEELS CONFIGURATION LISTS
+    // WHEELS CONFIGURATION LISTS (EXAKTE IN-GAME REIHENFOLGE IM UHRZEIGERSINN)
     // =========================================================================
     const mainRegionsList = [
-        "Pyranthos North East", "Pyranthos North West", "Pyranthos West",
-        "Korinthos South East", "Korinthos South West", "Korinthos West", "Korinthos North West", "Korinthos East",
-        "Phokintos South", "Phokintos East", "Phokintos North", "Phokintos South West",
-        "Therokis North", "Therokis East", "Therokis West",
-        "Lemnokis South", "Lemnokis South East", "Lemnokis East", "Pyranthos North"
+        "Pyranthos North East", 
+        "Pyranthos North", 
+        "Pyranthos North West", 
+        "Pyranthos West", 
+        "Lemnokis South", 
+        "Lemnokis South East", 
+        "Lemnokis East", 
+        "Therokis West", 
+        "Therokis East", 
+        "Therokis North", 
+        "Phokintos South West", 
+        "Phokintos North", 
+        "Phokintos East", 
+        "Phokintos South", 
+        "Korinthos East", 
+        "Korinthos North West", 
+        "Korinthos West", 
+        "Korinthos South West", 
+        "Korinthos South East"
     ];
     const subDirectionsList = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
 
     // =========================================================================
-    // WAYPOINTS DATABASE
+    // WAYPOINTS DATABASE (MIT DEINEN EINGETRAGENEN KOORDINATEN)
     // =========================================================================
     const teleportWaypoints = [
         { id: 1, mainRegion: "Pyranthos North East", subDirection: "N", name: "Pyranthos North East - [N] Terminal", coordinates: [78.3, 100.0] },
